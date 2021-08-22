@@ -53,11 +53,10 @@ def main():
                 details = profile.online_id + ("" if not profile.platform else " ( " + profile.platform + " )"),
                 state = \
                     "Offline" if not profile.online else \
-                    "Idle" if not profile.presence else \
-                    "Idle" if not profile.presence.game_name else \
-                    profile.presence.game_name,
+                    "Idle" if not profile.game else \
+                    profile.game.game_name,
                 large_text = "Playcord",
-                large_image = "logo.png",
+                large_image = "logo",
                 start = current_time
             )
             console.print(
@@ -67,7 +66,7 @@ def main():
                 "[bold][green4]■ IN GAME[/green4][/bold]" if profile.playing else \
                 "[bold][yellow1]■ IDLE[/yellow1][/bold]" if profile.online else \
                 "[bold][grey78]■ OFFLINE[/grey78][/bold]",
-                "No any game running." if not profile.presence else profile.presence.game_name,
+                "No any game running." if not profile.game else profile.game.game_name,
                 "─" * 20,
                 "[white]You can minimize the console window. Your presence will be updated in every 15 seconds.[/white]",
                 "[white]If you want to stop showing Rich Presence, simply close the window or press Ctrl + C.[/white]",

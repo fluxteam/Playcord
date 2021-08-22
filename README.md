@@ -14,13 +14,11 @@ One of my friends told me about an app that shows your PlayStation status as Dis
 
 Then I looked in GitHub to see alternatives, however surprisingly there is almost no any app that shows your current PlayStation game as rich presence on Discord. So I wanted to build an alternative in a different programming language that works cross-platform and without using Electron.
 
-Tutsin's PlayStationDiscord app uses Electron, so it can open the authorization URL in a new window and can control the browser window easily. As there is no something like this in Python, I thought about embedding a web driver in the application first, so it can launch a Chromium instance and control it in code. However, it caused a lot of issues when executing the compiled binary and increased the application size a lot. So I needed alternative solutions.
+Tustin's PlayStationDiscord app uses Electron, so it can open the authorization URL in a new window and can control the browser window easily. As there is no something like this in Python, I thought about embedding a web driver in the application first, so it can launch a Chromium instance and control it in code. However, it caused a lot of issues when executing the compiled binary and increased the application size a lot. So I needed alternative solutions.
 
 When you log in using PlayStation App's login URL, it opens the PlayStation App in the device by redirecting to `com.playstation.PlayStationApp://`, this is actually made for PlayStation's Android app, but other operating systems can handle such URIs too, for example in Windows, by modifying Registry. So it is possible to open a specified app when you go to that URI in your browser.
 
 This is the best solution I found so far, so it is not needed to embed a browser instance and make the app bloated. Because of that Registry thing, the app must be installed on computer. So it is not portable. (Actually if you modify your Registry yourself then you can get it work but nobody wants to modify Registry manually.) However, I don't count this as a "disadvantage" because the app already creates and modifies files for storing your login tokens. So there is no point for making it portable.
-
-Playcord doesn't have a GUI because I don't want to import a ton of GUI libraries for only showing your avatar and name in app. It's only purpose is showing your PlayStation status on Discord. So if you want to close or disable it, you can just exit from app. And if you want to sign out, just delete the session file. But I can think about adding a _very-simple_ GUI if there are a lot of requests.
 
 ## FAQ
 
@@ -31,6 +29,10 @@ Actually, this is not required at all for such this app. However, modifying the 
 #### Why my antivirus says that it is a malware?
 
 False positive. There is nothing to say more. If you think it is a really "malware", then you might want to read the code. After all, you are using an open-source software. It is not possible to find a reason to worry about its safety.
+
+### Why it doesn't have an GUI? Terminal is ugly.
+
+I know. Playcord doesn't have a GUI because I don't want to import a ton of GUI libraries for only showing your avatar and name in app. It's only purpose is showing your PlayStation status on Discord. So if you want to close or disable it, you can just exit from app. And if you want to sign out, just delete the session file. But I can think about adding a _very-simple_ GUI if there are a lot of requests.
 
 ## Credits
 

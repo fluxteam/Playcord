@@ -33,12 +33,21 @@ class Account():
         account.session = Session(**response.json())
         return account
 
+    @property
+    def refresh_required(self) -> bool:
+        """
+        Returns True if token is expiring soon. Otherwise, False.
+        """
+        if not self.session:
+            raise ValueError("User is not signed in.")
+        return self.session.expire_seconds <= (10 * 60)
+
     def refresh(self) -> None:
         """
         Refeshes a token.
         """
         if not self.session:
-            raise ValueError("user is not signed in.")
+            raise ValueError("User is not signed in.")
         # Refresh token request.
         response = self.client.post(
             self.AUTH_ENDPOINT,
@@ -56,7 +65,7 @@ class Account():
         Get user profile and returns a `Profile` object.
         """
         if not self.session:
-            raise ValueError("user is not signed in.")
+            raise ValueError("User is not signed in.")
         # Get user profile.
         response = self.client.get(
             "https://us-prof.np.community.playstation.net/userProfile/v1/users/me/profile2",

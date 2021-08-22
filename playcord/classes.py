@@ -30,30 +30,22 @@ class Session():
         }
 
     @property
-    def left_seconds(self) -> int:
+    def expire_seconds(self) -> int:
         """
         Returns how many seconds left for token refresh.
         """
         return (self._generated_time + self.expires_in) - int(time.time())
 
 
-class Presence():
+class Game():
     """
-    Represents a presence in profile.
+    Represents a game in profile.
     """
     def __init__(
         self,
         data : dict
     ) -> None:
         self.data : dict = data
-
-    @property
-    def platform(self) -> str:
-        """
-        Name of the platform that user is playing on.
-        PSVITA, PS3, PS4...
-        """
-        return self.data["platform"]
 
     @property
     def game_name(self) -> Optional[str]:
@@ -86,6 +78,8 @@ class Presence():
         """
         return all([self.game_name, self.game_id, self.game_url])
 
+    def __bool__(self) -> bool:
+        return self.playing
 
 
 class Profile():
@@ -125,9 +119,9 @@ class Profile():
     def playing(self) -> bool:
         """
         Returns True if user is in the game. Otherwise, False.
-        Shortcut to: `profile.presence.playing`
+        Shortcut to: `profile.game.playing`
         """
-        return False if not self.presence else self.presence.playing
+        return bool(self.game)
 
     @property
     def plus(self) -> bool:
@@ -140,15 +134,16 @@ class Profile():
     def platform(self) -> Optional[str]:
         """
         Name of the platform that user is online on.
+        Can be None if user is not connected to PlayStation Network from a PlayStation device.
         """
-        return None if not self.presence else self.presence.platform
+        return self.data["presences"][0].get("platform", None)
 
     @property
-    def presence(self) -> Optional[Presence]:
+    def game(self) -> Optional[Game]:
         """
-        Returns the current presence of the user, if user is not playing AND not connected to
+        Returns the current game of the user, if user is not playing AND not connected to
         PlayStation Network from a PlayStation device, returns None.
         """
         return \
             None if len(self.data["presences"][0]) < 2 else \
-            Presence(self.data["presences"][0])
+            Game(self.data["presences"][0])
