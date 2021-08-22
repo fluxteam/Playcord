@@ -9,7 +9,7 @@ if __name__ == '__main__':
     try:
         playcord.main()
     except httpx.HTTPStatusError:
-        db = TinyDB("session.json")
+        db = TinyDB("./session.json")
         db.truncate()
     except KeyboardInterrupt:
         sys.exit('\nERROR: Interrupted by user')

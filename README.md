@@ -30,7 +30,7 @@ Actually, this is not required at all for such this app. However, modifying the 
 
 False positive. There is nothing to say more. If you think it is a really "malware", then you might want to read the code. After all, you are using an open-source software. It is not possible to find a reason to worry about its safety.
 
-### Why it doesn't have an GUI? Terminal is ugly.
+#### Why it doesn't have an GUI? Terminal is ugly.
 
 I know. Playcord doesn't have a GUI because I don't want to import a ton of GUI libraries for only showing your avatar and name in app. It's only purpose is showing your PlayStation status on Discord. So if you want to close or disable it, you can just exit from app. And if you want to sign out, just delete the session file. But I can think about adding a _very-simple_ GUI if there are a lot of requests.
 

@@ -20,9 +20,9 @@ def main():
         console.print("https://github.com/ysfchn/Playcord", style = "bright_white")
         console.print("Show your PlayStation presence as Discord Rich Presence!\n", style = "bright_white")
         # Get database.
-        db = TinyDB("session.json")
+        db = TinyDB("./session.json")
         # Get auth code from query string.
-        code = parse_qs(urlparse(sys.argv[1]).query).get("code", None)
+        code = parse_qs(urlparse(sys.argv[1]).query).get("code", [None])[0]
         # If code is None, check for DB for existing sessions.
         if (not code) and db.all():
             code = db.all()[0]["access_token"]
