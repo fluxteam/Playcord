@@ -1,7 +1,7 @@
 import time
 from typing import Optional
 
-class Session():
+class Session:
     """
     A session object for storing OAuth responses.
     """
@@ -37,7 +37,7 @@ class Session():
         return (self._generated_time + self.expires_in) - int(time.time())
 
 
-class Game():
+class Game:
     """
     Represents a game in profile.
     """
@@ -82,7 +82,7 @@ class Game():
         return self.playing
 
 
-class Profile():
+class Profile:
     """
     An account profile that contains information about user.
     """

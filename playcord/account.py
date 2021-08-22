@@ -2,7 +2,7 @@ import httpx
 from typing import Optional
 from playcord.classes import Session, Profile
 
-class Account():
+class Account:
     AUTH_ENDPOINT = "https://auth.api.sonyentertainmentnetwork.com/2.0/oauth/token"
     CLIENT_TOKEN = "YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY="
 

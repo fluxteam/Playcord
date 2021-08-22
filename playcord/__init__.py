@@ -2,11 +2,11 @@ import sys
 from rich.console import Console
 from playcord.utils import get_login_url
 from playcord.account import Account
+from playcord.config import Configuration
 from urllib.parse import urlparse, parse_qs
 from pypresence import Presence
 import webbrowser
 import time
-from tinydb import TinyDB
 
 def main():
     console = Console()
@@ -19,13 +19,13 @@ def main():
         console.print("Playcord", style = "bright_white")
         console.print("https://github.com/ysfchn/Playcord", style = "bright_white")
         console.print("Show your PlayStation presence as Discord Rich Presence!\n", style = "bright_white")
-        # Get database.
-        db = TinyDB("./session.json")
+        # Get config.
+        config = Configuration()
         # Get auth code from query string.
         code = parse_qs(urlparse(sys.argv[1]).query).get("code", [None])[0]
         # If code is None, check for DB for existing sessions.
-        if (not code) and db.all():
-            code = db.all()[0]["access_token"]
+        if (not code) and config["session"].get("access_token"):
+            code = config["session"]["access_token"]
         # If code is still blank, open browser and exit.
         if (not code):
             webbrowser.open(get_login_url())
@@ -33,8 +33,8 @@ def main():
         console.print("Signing in...", style = "bright_yellow")
         account = Account.login(code)
         # Save access token to DB.
-        db.truncate()
-        db.insert({"access_token": code})
+        config["session"]["access_token"] = code
+        config.save()
         profile = account.profile()
         console.print(f"[green4]Signed in as [green3]{profile.online_id}[/green3]. [/green4]")
         console.print("To exit, close the window or press Ctrl + C.\n", style = "white")

@@ -3,14 +3,16 @@ import sys
 import traceback
 import os
 import httpx
-from tinydb import TinyDB
+from playcord.config import Configuration
 
 if __name__ == '__main__':
     try:
         playcord.main()
     except httpx.HTTPStatusError:
-        db = TinyDB("./session.json")
-        db.truncate()
+        config = Configuration()
+        if "access_token" in config["session"]:
+            config["session"].pop("access_token")
+        config.save()
     except KeyboardInterrupt:
         sys.exit('\nERROR: Interrupted by user')
     except Exception as error:
