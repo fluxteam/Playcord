@@ -53,9 +53,9 @@ class Account:
 
 
     @property
-    def refresh_required(self) -> bool:
+    def needs_refresh(self) -> bool:
         """
-        Returns True if token is expiring soon. Otherwise, False.
+        Returns True if token is expiring soon (in 10 minutes). Otherwise, False.
         """
         if not self.session:
             raise ValueError("User is not signed in.")

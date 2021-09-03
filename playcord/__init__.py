@@ -36,7 +36,7 @@ def main(config : ReadSettings):
         else:
             webbrowser.open(get_login_url())
             sys.exit(0)
-        # Save access token.
+        # Save refresh token.
         config["refresh_token"] = account.session.refresh_token
         profile = account.profile()
         console.print(f"[green4]Signed in as [green3]{profile.id}[/green3]. [/green4]")
@@ -51,6 +51,10 @@ def main(config : ReadSettings):
         time.sleep(10)
         # Send update
         while True:
+            if account.needs_refresh:
+                console.print("Session requires refreshing, hold on...", style = "grey78")
+                account.refresh()
+                config["refresh_token"] = account.session.refresh_token
             console.clear()
             rpc.update(
                 details = profile.id + ("" if not profile.platform else " ( " + profile.platform + " )"),

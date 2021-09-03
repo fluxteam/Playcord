@@ -16,7 +16,7 @@ class Session:
         self.access_token : str = access_token
         self.token_type : str = token_type
         self.refresh_token : str = refresh_token
-        self.expires_in : int = int(expires_in)
+        self.expires_in : int = int(expires_in or "0") or 3599
         self.scope : str = scope
         self._generated_time = int(time.time())
 
