@@ -3,16 +3,16 @@ import sys
 import traceback
 import os
 import httpx
-from playcord.config import Configuration
+from readsettings import ReadSettings
+from pathlib import Path
 
 if __name__ == '__main__':
+    config = ReadSettings(str(Path.home().resolve() / "playcord.toml"))
     try:
-        playcord.main()
+        playcord.main(config)
     except httpx.HTTPStatusError:
-        config = Configuration()
-        if "access_token" in config["session"]:
-            config["session"].pop("access_token")
-        config.save()
+        if "access_token" in config.data:
+            del config["access_token"]
     except KeyboardInterrupt:
         sys.exit('\nERROR: Interrupted by user')
     except Exception as error:

@@ -10,6 +10,7 @@ class Account:
         self.client = httpx.Client()
         self.session : Optional[Session] = None
 
+
     @staticmethod
     def login(token : str) -> "Account":
         """
@@ -33,6 +34,24 @@ class Account:
         account.session = Session(**response.json())
         return account
 
+
+    @staticmethod
+    def login_refresh(refresh_token : str) -> "Account":
+        """
+        Logins using a refresh token and returns a `Account` object.
+        """
+        account = Account()
+        account.session = Session(
+            access_token = "",
+            token_type = "",
+            refresh_token = refresh_token,
+            expires_in = "0",
+            scope = "psn:clientapp referenceDataService:countryConfig.read"
+        )
+        account.refresh()
+        return account
+
+
     @property
     def refresh_required(self) -> bool:
         """
@@ -41,6 +60,7 @@ class Account:
         if not self.session:
             raise ValueError("User is not signed in.")
         return self.session.expire_seconds <= (10 * 60)
+
 
     def refresh(self) -> None:
         """
@@ -51,7 +71,12 @@ class Account:
         # Refresh token request.
         response = self.client.post(
             self.AUTH_ENDPOINT,
-            data = self.session.form_data,
+            data = {
+                "grant_type": "refresh_token",
+                "refresh_token": self.session.refresh_token,
+                "redirect_uri": "com.playstation.PlayStationApp://redirect",
+                "scope": self.session.scope
+            },
             headers = {
                 "Authorization": f"Basic {self.CLIENT_TOKEN}", 
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -59,6 +84,7 @@ class Account:
         )
         response.raise_for_status()
         self.session = Session(**response.json())
+
 
     def profile(self) -> Profile:
         """

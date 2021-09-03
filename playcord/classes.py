@@ -21,15 +21,6 @@ class Session:
         self._generated_time = int(time.time())
 
     @property
-    def form_data(self) -> dict:
-        return {
-            "grant_type": "refresh_token",
-            "refresh_token": self.refresh_token,
-            "redirect_uri": "com.playstation.PlayStationApp://redirect",
-            "scope": self.scope
-        }
-
-    @property
     def expire_seconds(self) -> int:
         """
         Returns how many seconds left for token refresh.
@@ -48,7 +39,7 @@ class Game:
         self.data : dict = data
 
     @property
-    def game_name(self) -> Optional[str]:
+    def name(self) -> Optional[str]:
         """
         Returns the name of the game that user is playing.
         Can be None if user is not playing right now.
@@ -56,7 +47,7 @@ class Game:
         return self.data.get("titleName", None)
 
     @property
-    def game_url(self) -> Optional[str]:
+    def image_url(self) -> Optional[str]:
         """
         Returns the image URL of the game that user is playing.
         Can be None if user is not playing right now.
@@ -64,7 +55,7 @@ class Game:
         return self.data.get("npTitleIconUrl", None)
 
     @property
-    def game_id(self) -> Optional[str]:
+    def id(self) -> Optional[str]:
         """
         Returns the ID of the game that user is playing.
         Can be None if user is not playing right now.
@@ -76,10 +67,18 @@ class Game:
         """
         Returns True if user is in the game. Otherwise, False.
         """
-        return all([self.game_name, self.game_id, self.game_url])
+        return any([self.name, self.id, self.image_url])
 
     def __bool__(self) -> bool:
         return self.playing
+
+    def __eq__(self, o: object) -> bool:
+        return \
+            False if not isinstance(o, Game) else \
+            any([o.id == self.id, o.image_url == self.image_url, o.name == self.name])
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Profile:
@@ -100,7 +99,7 @@ class Profile:
         return self.data["avatarUrls"][0]
 
     @property
-    def online_id(self) -> str:
+    def id(self) -> str:
         """
         Returns the user name of the account.
         """
@@ -147,3 +146,9 @@ class Profile:
         return \
             None if len(self.data["presences"][0]) < 2 else \
             Game(self.data["presences"][0])
+
+    def __bool__(self) -> bool:
+        return self.online
+    
+    def __str__(self) -> str:
+        return self.id
