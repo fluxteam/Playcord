@@ -13,7 +13,9 @@ version = "1.0.0"
 [tool.briefcase.app.playcord]
 formal_name = "Playcord"
 description = "Show your PlayStation status as Discord Rich Presence."
+author = "Yusuf Cihan"
 icon = "playcord/resources/playcord"
+installer_icon = "playcord/resources/playcord"
 sources = ['playcord']
 requires = [
     "pypresence",
