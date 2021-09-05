@@ -34,7 +34,7 @@ requires = [
     "rich",
     "readsettings",
     "toga==0.3.0.dev28",
-    'toga-cocoa>=0.3.0.dev20',
+    'toga-cocoa==0.3.0.dev28',
 ]
 
 [tool.briefcase.app.playcord.linux]
@@ -43,8 +43,10 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
+    "pycairo",
+    "PyGObject",
     "toga==0.3.0.dev28",
-    'toga-gtk>=0.3.0.dev20',
+    'toga-gtk==0.3.0.dev28',
 ]
 system_requires = [
     'libgirepository1.0-dev',
@@ -61,5 +63,5 @@ requires = [
     "rich",
     "readsettings",
     "toga==0.3.0.dev28",
-    'toga-winforms>=0.3.0.dev20',
+    'toga-winforms==0.3.0.dev28',
 ]
