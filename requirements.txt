@@ -2,3 +2,4 @@ pypresence
 httpx
 rich
 readsettings
+toga

@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 
 class Constants:
     """
-    A class that holds auth endpoint, client token and login URL.
+    A class that holds auth endpoint, client token, login URL and others.
     """
     SCOPE = "psn:clientapp referenceDataService:countryConfig.read"
     REDIRECT_URI = "com.playstation.PlayStationApp://redirect"
@@ -12,6 +12,7 @@ class Constants:
     AUTH_ENDPOINT = "https://auth.api.sonyentertainmentnetwork.com/2.0/oauth/token"
     LOGIN_ENDPOINT = "https://ca.account.sony.com/api/v1/oauth/authorize"
     CLIENT_TOKEN = "YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY="
+    DEFAULT_AVATAR_URL = "http://static-resource.np.community.playstation.net/avatar_xl/default/Defaultavatar_xl.png"
     
     LOGIN_URL = LOGIN_ENDPOINT + "?" + \
         urlencode({
@@ -125,7 +126,7 @@ class Profile:
         """
         Returns the avatar image URL of the account.
         """
-        return self.data["avatarUrls"][0]
+        return self.data["avatarUrls"][0]["avatarUrl"]
 
     @property
     def id(self) -> str:

@@ -4,3 +4,60 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.briefcase]
+project_name = "Playcord"
+bundle = "com.ysfchn.playcord"
+version = "1.0.0"
+
+[tool.briefcase.app.playcord]
+formal_name = "Playcord"
+description = "Show your PlayStation status as Discord Rich Presence."
+icon = "playcord/resources/playcord"
+sources = ['playcord']
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga"
+]
+
+# Platform specific settings
+
+[tool.briefcase.app.playcord.macOS]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga",
+    'toga-cocoa>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.playcord.linux]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga",
+    'toga-gtk>=0.3.0.dev20',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.playcord.windows]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga",
+    'toga-winforms>=0.3.0.dev20',
+]
