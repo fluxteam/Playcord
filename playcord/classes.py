@@ -1,5 +1,34 @@
 import time
 from typing import Optional
+from urllib.parse import urlencode
+
+class Constants:
+    """
+    A class that holds auth endpoint, client token and login URL.
+    """
+    SCOPE = "psn:clientapp referenceDataService:countryConfig.read"
+    REDIRECT_URI = "com.playstation.PlayStationApp://redirect"
+    CLIENT_ID = "ac8d161a-d966-4728-b0ea-ffec22f69edc"
+    AUTH_ENDPOINT = "https://auth.api.sonyentertainmentnetwork.com/2.0/oauth/token"
+    LOGIN_ENDPOINT = "https://ca.account.sony.com/api/v1/oauth/authorize"
+    CLIENT_TOKEN = "YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY="
+    
+    LOGIN_URL = LOGIN_ENDPOINT + "?" + \
+        urlencode({
+            "service_entity": "urn:service-entity:psn",
+            "response_type": "code",
+            "client_id": CLIENT_ID,
+            "redirect_uri": REDIRECT_URI,
+            "scope": SCOPE,
+            "request_locale": "en_US",
+            "ui": "pr",
+            "service_logo": "ps",
+            "layout_type": "popup",
+            "smcid": "remoteplay",
+            "prompt": "always",
+            "PlatformPrivacyWs1": ""
+        }).replace('+', '%20')
+
 
 class Session:
     """
@@ -11,13 +40,13 @@ class Session:
         token_type : str,
         refresh_token : str,
         expires_in : str,
-        scope : str
+        scope : str = None
     ) -> None:
         self.access_token : str = access_token
         self.token_type : str = token_type
         self.refresh_token : str = refresh_token
         self.expires_in : int = int(expires_in or "0") or 3599
-        self.scope : str = scope
+        self.scope : str = scope or Constants.SCOPE
         self._generated_time = int(time.time())
 
     @property

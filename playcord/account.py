@@ -1,10 +1,8 @@
 import httpx
 from typing import Optional
-from playcord.classes import Session, Profile
+from playcord.classes import Session, Profile, Constants
 
 class Account:
-    AUTH_ENDPOINT = "https://auth.api.sonyentertainmentnetwork.com/2.0/oauth/token"
-    CLIENT_TOKEN = "YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY="
 
     def __init__(self) -> None:
         self.client = httpx.Client()
@@ -19,14 +17,14 @@ class Account:
         account = Account()
         # Login token request.
         response = account.client.post(
-            account.AUTH_ENDPOINT,
+            Constants.AUTH_ENDPOINT,
             data = {
                 "grant_type": "authorization_code",
                 "code": token,
                 "redirect_uri": "com.playstation.PlayStationApp://redirect"
             },
             headers = {
-                "Authorization": f"Basic {account.CLIENT_TOKEN}", 
+                "Authorization": f"Basic {Constants.CLIENT_TOKEN}", 
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         )
@@ -45,8 +43,7 @@ class Account:
             access_token = "",
             token_type = "",
             refresh_token = refresh_token,
-            expires_in = "0",
-            scope = "psn:clientapp referenceDataService:countryConfig.read"
+            expires_in = "0"
         )
         account.refresh()
         return account
@@ -70,15 +67,15 @@ class Account:
             raise ValueError("User is not signed in.")
         # Refresh token request.
         response = self.client.post(
-            self.AUTH_ENDPOINT,
+            Constants.AUTH_ENDPOINT,
             data = {
                 "grant_type": "refresh_token",
                 "refresh_token": self.session.refresh_token,
-                "redirect_uri": "com.playstation.PlayStationApp://redirect",
+                "redirect_uri": Constants.REDIRECT_URI,
                 "scope": self.session.scope
             },
             headers = {
-                "Authorization": f"Basic {self.CLIENT_TOKEN}", 
+                "Authorization": f"Basic {Constants.CLIENT_TOKEN}", 
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         )

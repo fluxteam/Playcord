@@ -1,7 +1,7 @@
 import sys
 from rich.console import Console
-from playcord.utils import get_login_url
 from playcord.account import Account
+from playcord.classes import Constants
 from urllib.parse import urlparse, parse_qs
 from pypresence import Presence
 import webbrowser
@@ -13,7 +13,7 @@ def main(config : ReadSettings):
     console = Console()
     # If no arguments has provided open auth URL and exit.
     if len(sys.argv) != 2:
-        webbrowser.open(get_login_url())
+        webbrowser.open(Constants.LOGIN_URL)
         sys.exit(0)
     # Otheriwse, get auth code.
     else:
@@ -34,7 +34,7 @@ def main(config : ReadSettings):
             account = Account.login(code)
         # If code is blank, open login browser and exit.
         else:
-            webbrowser.open(get_login_url())
+            webbrowser.open(Constants.LOGIN_URL)
             sys.exit(0)
         # Save refresh token.
         config["refresh_token"] = account.session.refresh_token
