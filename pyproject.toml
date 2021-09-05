@@ -22,7 +22,7 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
-    "toga"
+    "toga==0.3.0.dev28"
 ]
 
 # Platform specific settings
@@ -33,7 +33,7 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
-    "toga",
+    "toga==0.3.0.dev28",
     'toga-cocoa>=0.3.0.dev20',
 ]
 
@@ -43,7 +43,7 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
-    "toga",
+    "toga==0.3.0.dev28",
     'toga-gtk>=0.3.0.dev20',
 ]
 system_requires = [
@@ -60,6 +60,6 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
-    "toga",
+    "toga==0.3.0.dev28",
     'toga-winforms>=0.3.0.dev20',
 ]

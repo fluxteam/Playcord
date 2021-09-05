@@ -2,4 +2,4 @@ pypresence
 httpx
 rich
 readsettings
-toga
+toga==0.3.0.dev28

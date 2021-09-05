@@ -2,11 +2,11 @@ import playcord
 import sys
 import traceback
 import os
-from playcord import gui
+from playcord.gui import main
 
 if __name__ == '__main__':
     try:
-        gui.main().main_loop()
+        main().main_loop()
         # playcord.main(config)
     except KeyboardInterrupt:
         sys.exit('\nERROR: Interrupted by user')
@@ -15,4 +15,3 @@ if __name__ == '__main__':
         ex_type, ex_value, ex_traceback = sys.exc_info()
         message = os.linesep.join(traceback.format_exception(etype=type(error), value=error, tb=error.__traceback__))
         print(message)
-        stop = input()
