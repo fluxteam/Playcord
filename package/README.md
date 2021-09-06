@@ -1,0 +1,1 @@
+This folder contains additional files that will be injected to Briefcase's cookiecutter templates. Because Briefcase doesn't have a configuration for adding URL/URI handlers, and as you know Playcord requires registering `com.playstation.PlaystationApp://` handler.

@@ -15,6 +15,15 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install wheel briefcase
+    - name: Inject files to briefcase templates
+      run: |
+        wget -O template.zip https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
+        unzip template.zip
+        mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
+        cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
+      env:
+        TEMPLATE_BASE: briefcase-windows-msi-template
+        TEMPLATE_COMMIT: 62da9d2b0f133532ed947a2c36043e039a90a184
     - name: Build application
       run: briefcase package
     - name: Upload installer to artifacts
@@ -37,7 +46,7 @@ jobs:
         python -m pip install --upgrade pip
         sudo apt-get install libgirepository1.0-dev libcairo2-dev libpango1.0-dev unzip
         pip install wheel briefcase
-    - name: Download briefcase templates
+    - name: Inject files to briefcase templates
       run: |
         wget -O template.zip https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
         unzip template.zip
