@@ -43,8 +43,6 @@ requires = [
     "httpx",
     "rich",
     "readsettings",
-    "pycairo",
-    "PyGObject",
     "toga==0.3.0.dev28",
     'toga-gtk==0.3.0.dev28',
 ]
