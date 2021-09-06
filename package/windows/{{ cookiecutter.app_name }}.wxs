@@ -2,7 +2,7 @@
 <?define ProductVersion = "{{ cookiecutter.version_triple }}" ?>
 <?define ProductUpgradeCode = "{{ cookiecutter.guid }}" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-   <Product
+    <Product
             Id="*"
             UpgradeCode="$(var.ProductUpgradeCode)"
             Name="{{ cookiecutter.formal_name }}"
@@ -80,6 +80,33 @@
                     </Component>
                 </Directory>
             </Directory>
+
+            <Directory Id="DesktopFolder" Name="Desktop">
+                <Component Id="ApplicationShortcutDesktop" Guid="*">
+                    <Shortcut
+                        Id="ApplicationDesktopShortcut"
+                        Name="{{ cookiecutter.formal_name }}"
+                        Icon="ProductIcon"
+                        Description="{{ cookiecutter.description }}"
+                        Target="[{{ cookiecutter.module_name }}_ROOTDIR]python\pythonw.exe"
+                        WorkingDirectory="{{ cookiecutter.module_name }}_ROOTDIR"
+                        Arguments="-m {{ cookiecutter.module_name }}" />
+                    <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+                    <RegistryKey 
+                        Root="HKCR"
+                        Key="com.playstation.PlayStationApp"
+                        Action="createAndRemoveOnUninstall">
+                        <RegistryValue Type="string" Name="URL Protocol" Value=""/>
+                        <RegistryValue Type="string" Value="URL:Playcord"/>
+                        <RegistryKey Key="DefaultIcon">
+                            <RegistryValue Type="string" Value="ProductIcon" />
+                        </RegistryKey>
+                        <RegistryKey Key="shell\open\command">
+                            <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]python\pythonw.exe -m {{ cookiecutter.module_name }}&quot; &quot;%1&quot;" />
+                        </RegistryKey>
+                    </RegistryKey>
+                </Component>
+            </Directory>
         </Directory>
 
         <InstallExecuteSequence>
@@ -89,26 +116,27 @@
         <Feature Id="DefaultFeature" Level="1">
             <ComponentGroupRef Id="{{ cookiecutter.module_name }}_COMPONENTS" />
             <ComponentRef Id="ApplicationShortcuts"/>
+            <ComponentRef Id="ApplicationShortcutDesktop"/>
         </Feature>
 
         <UI Id="UserInterface">
-          <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
-          <Property Id="WixUI_Mode" Value="Custom" />
+            <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+            <Property Id="WixUI_Mode" Value="Custom" />
 
-          <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-          <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="9" Bold="yes" />
-          <TextStyle Id="WixUI_Font_Title"  FaceName="Tahoma" Size="9" Bold="yes" />
+            <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+            <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="9" Bold="yes" />
+            <TextStyle Id="WixUI_Font_Title"  FaceName="Tahoma" Size="9" Bold="yes" />
 
-          <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+            <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
 
-          <DialogRef Id="ProgressDlg" />
-          <DialogRef Id="ErrorDlg" />
-          <DialogRef Id="FilesInUse" />
-          <DialogRef Id="FatalError" />
-          <DialogRef Id="UserExit" />
+            <DialogRef Id="ProgressDlg" />
+            <DialogRef Id="ErrorDlg" />
+            <DialogRef Id="FilesInUse" />
+            <DialogRef Id="FatalError" />
+            <DialogRef Id="UserExit" />
 
-          <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
-          <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
+            <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+            <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
 
         </UI>
 
