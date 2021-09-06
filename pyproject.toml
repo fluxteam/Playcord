@@ -34,7 +34,7 @@ requires = [
     "rich",
     "readsettings",
     "toga==0.3.0.dev28",
-    'toga-cocoa==0.3.0.dev28',
+    'toga-cocoa==0.3.0.dev28'
 ]
 
 [tool.briefcase.app.playcord.linux]
@@ -44,14 +44,14 @@ requires = [
     "rich",
     "readsettings",
     "toga==0.3.0.dev28",
-    'toga-gtk==0.3.0.dev28',
+    'toga-gtk==0.3.0.dev28'
 ]
 system_requires = [
     'libgirepository1.0-dev',
     'libcairo2-dev',
     'libpango1.0-dev',
     'libwebkitgtk-3.0-0',
-    'gir1.2-webkit-3.0',
+    'gir1.2-webkit-3.0'
 ]
 
 [tool.briefcase.app.playcord.windows]
@@ -61,5 +61,5 @@ requires = [
     "rich",
     "readsettings",
     "toga==0.3.0.dev28",
-    'toga-winforms==0.3.0.dev28',
+    'toga-winforms==0.3.0.dev28'
 ]
