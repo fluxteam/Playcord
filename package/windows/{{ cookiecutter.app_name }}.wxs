@@ -96,7 +96,7 @@
                         Root="HKCU"
                         Key="Software\Classes\com.playstation.PlayStationApp"
                         ForceCreateOnInstall="yes"
-                        ForceDeleteOnInstall="yes"
+                        ForceDeleteOnUninstall="yes"
                     >
                         <RegistryValue Type="string" Name="URL Protocol" Value=""/>
                         <RegistryValue Type="string" Value="URL:Playcord"/>
