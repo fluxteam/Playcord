@@ -17,7 +17,7 @@ jobs:
         pip install wheel briefcase
     - name: Inject files to briefcase templates
       run: |
-        curl -o template.zip https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
+        curl -o template.zip -L https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
         unzip template.zip
         mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
         cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
@@ -48,7 +48,7 @@ jobs:
         pip install wheel briefcase
     - name: Inject files to briefcase templates
       run: |
-        curl -o template.zip https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
+        curl -o template.zip -L https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
         unzip template.zip
         mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
         cp "package/linux/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}.desktop" "beeware_template/{{ cookiecutter.formal_name }}/{{ cookiecutter.formal_name }}.AppDir/"
