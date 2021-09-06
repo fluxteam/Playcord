@@ -19,7 +19,7 @@ jobs:
       run: |
         curl -o template.zip -L https://github.com/beeware/$env:TEMPLATE_BASE/archive/$env:TEMPLATE_COMMIT.zip
         unzip template.zip
-        mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
+        mv "$env:TEMPLATE_BASE-$env:TEMPLATE_COMMIT" beeware_template
         cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
       env:
         TEMPLATE_BASE: briefcase-windows-msi-template
