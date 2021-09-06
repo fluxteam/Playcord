@@ -99,9 +99,9 @@
                         ForceDeleteOnUninstall="yes"
                     >
                         <RegistryValue Type="string" Name="URL Protocol" Value=""/>
-                        <RegistryValue Type="string" Value="URL:com.playstation.PlayStationApp Protocol"/>
+                        <RegistryValue Type="string" Value="URL:Playcord Link"/>
                         <RegistryKey Key="DefaultIcon">
-                            <RegistryValue Type="string" Value="[{{ cookiecutter.module_name }}_ROOTDIR]app\playcord\resources\playcord.ico" />
+                            <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]app\playcord\resources\playcord.ico&quot;" />
                         </RegistryKey>
                         <RegistryKey Key="shell\open\command">
                             <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]python\pythonw.exe -m {{ cookiecutter.module_name }}&quot; &quot;%1&quot;" />
