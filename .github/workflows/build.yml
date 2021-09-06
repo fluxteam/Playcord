@@ -1,4 +1,4 @@
-name: Build Application
+name: Build
 on: [push]
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install wheel briefcase
     - name: Build application
-      run: briefcase package
+      run: briefcase package --no-docker
     - name: Upload installer to artifacts
       uses: actions/upload-artifact@v2
       with:

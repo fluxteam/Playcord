@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.briefcase]
 project_name = "Playcord"
-bundle = "com.ysfchn.playcord"
+bundle = "com.ysfchn"
 version = "1.0.0"
 
 [tool.briefcase.app.playcord]
