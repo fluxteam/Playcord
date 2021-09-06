@@ -16,6 +16,7 @@ description = "Show your PlayStation status as Discord Rich Presence."
 author = "Yusuf Cihan"
 icon = "playcord/resources/playcord"
 installer_icon = "playcord/resources/playcord"
+url = "https://github.com/ysfchn/Playcord"
 sources = ['playcord']
 requires = [
     "pypresence",
@@ -24,6 +25,8 @@ requires = [
     "readsettings",
     "toga==0.3.0.dev28"
 ]
+# This folder automatically created in build.yml.
+template = "beeware_template"
 
 # Platform specific settings
 
@@ -36,6 +39,7 @@ requires = [
     "toga==0.3.0.dev28",
     'toga-cocoa==0.3.0.dev28'
 ]
+supported = false
 
 [tool.briefcase.app.playcord.linux]
 requires = [
