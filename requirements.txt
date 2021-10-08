@@ -1,4 +1,5 @@
 pypresence
 httpx
 rich
-tinydb
+readsettings
+toga==0.3.0.dev28

@@ -4,3 +4,66 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.briefcase]
+project_name = "Playcord"
+bundle = "com.ysfchn"
+version = "1.0.0"
+
+[tool.briefcase.app.playcord]
+formal_name = "Playcord"
+description = "Show your PlayStation status as Discord Rich Presence."
+author = "Yusuf Cihan"
+icon = "playcord/resources/playcord"
+installer_icon = "playcord/resources/playcord"
+url = "https://github.com/ysfchn/Playcord"
+sources = ['playcord']
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga==0.3.0.dev28"
+]
+# This folder automatically created in build.yml.
+template = "beeware_template"
+
+# Platform specific settings
+
+[tool.briefcase.app.playcord.macOS]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga==0.3.0.dev28",
+    'toga-cocoa==0.3.0.dev28'
+]
+supported = false
+
+[tool.briefcase.app.playcord.linux]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga==0.3.0.dev28",
+    'toga-gtk==0.3.0.dev28'
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0'
+]
+
+[tool.briefcase.app.playcord.windows]
+requires = [
+    "pypresence",
+    "httpx",
+    "rich",
+    "readsettings",
+    "toga==0.3.0.dev28",
+    'toga-winforms==0.3.0.dev28'
+]

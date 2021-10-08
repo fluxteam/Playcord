@@ -10,21 +10,56 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: '3.8'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install wheel nuitka zstandard
-        pip install -r requirements.txt
-        curl https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe -o is.exe
-        ./is.exe /VERYSILENT /NORESTART /SUPPRESSMSGBOXES /ALLUSERS /NOCANCEL
+        pip install wheel briefcase
+    - name: Inject files to briefcase templates
+      run: |
+        curl -o template.zip -L https://github.com/beeware/$env:TEMPLATE_BASE/archive/$env:TEMPLATE_COMMIT.zip
+        unzip template.zip
+        mv "$env:TEMPLATE_BASE-$env:TEMPLATE_COMMIT" beeware_template
+        cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
+        cp "package/windows/{{ cookiecutter.app_name }}.bat" "beeware_template/{{ cookiecutter.formal_name }}/src/app/"
+      env:
+        TEMPLATE_BASE: briefcase-windows-msi-template
+        TEMPLATE_COMMIT: 62da9d2b0f133532ed947a2c36043e039a90a184
     - name: Build application
-      run: python -m nuitka playcord --follow-imports --assume-yes-for-downloads --output-dir=dist --no-pyi-file --include-package=playcord --standalone --prefer-source-code --remove-output --windows-company-name="Yusuf Cihan" --windows-icon-from-ico="misc/playcord_logo.ico" --windows-product-name="Playcord" --windows-product-version="1.0" --windows-uac-admin --windows-file-description=Playcord
-    - name: Build installer
-      run: '"%programfiles(x86)%\Inno Setup 6\iscc.exe" "misc/installer_script.iss"'
-      shell: cmd
+      run: briefcase package
     - name: Upload installer to artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: playcord-installer
-        path: Playcord.exe
+        name: playcord-windows
+        path: windows/*.msi
+  
+  build_linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        sudo apt-get install libgirepository1.0-dev libcairo2-dev libpango1.0-dev unzip
+        pip install wheel briefcase
+    - name: Inject files to briefcase templates
+      run: |
+        curl -o template.zip -L https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
+        unzip template.zip
+        mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
+        cp "package/linux/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}.desktop" "beeware_template/{{ cookiecutter.formal_name }}/{{ cookiecutter.formal_name }}.AppDir/"
+      env:
+        TEMPLATE_BASE: briefcase-linux-appimage-template
+        TEMPLATE_COMMIT: 1972003a82a72d86c3d993f05ad18cf74dbda992
+    - name: Build application
+      run: briefcase package
+    - name: Upload installer to artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: playcord-linux
+        path: linux/*.AppImage
