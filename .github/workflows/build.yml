@@ -10,7 +10,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: '3.8'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -21,6 +21,7 @@ jobs:
         unzip template.zip
         mv "$env:TEMPLATE_BASE-$env:TEMPLATE_COMMIT" beeware_template
         cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
+        cp "package/windows/run_app.bat" "beeware_template/{{ cookiecutter.formal_name }}/src/app/"
       env:
         TEMPLATE_BASE: briefcase-windows-msi-template
         TEMPLATE_COMMIT: 62da9d2b0f133532ed947a2c36043e039a90a184
@@ -40,7 +41,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: '3.8'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
