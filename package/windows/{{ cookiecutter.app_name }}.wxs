@@ -99,12 +99,12 @@
                         ForceDeleteOnUninstall="yes"
                     >
                         <RegistryValue Type="string" Name="URL Protocol" Value=""/>
-                        <RegistryValue Type="string" Value="URL:Playcord Link"/>
+                        <RegistryValue Type="string" Value="URL:Playcord Protocol"/>
                         <RegistryKey Key="DefaultIcon">
                             <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]app\playcord\resources\playcord.ico&quot;" />
                         </RegistryKey>
                         <RegistryKey Key="shell\open\command">
-                            <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]python\pythonw.exe -m {{ cookiecutter.module_name }}&quot; &quot;%1&quot;" />
+                            <RegistryValue Type="string" Value="explorer.exe &quot;&quot;&quot;[{{ cookiecutter.module_name }}_ROOTDIR]python\pythonw.exe -m {{ cookiecutter.module_name }}&quot;&quot; &quot;&quot;%1&quot;&quot;&quot;" />
                         </RegistryKey>
                     </RegistryKey>
                 </Component>
