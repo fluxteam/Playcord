@@ -14,6 +14,8 @@ class Constants:
     CLIENT_TOKEN = "YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY="
     DEFAULT_AVATAR_URL = "http://static-resource.np.community.playstation.net/avatar_xl/default/Defaultavatar_xl.png"
     
+    DISCORD_CLIENT_ID = "877219232096596010"
+
     LOGIN_URL = LOGIN_ENDPOINT + "?" + \
         urlencode({
             "service_entity": "urn:service-entity:psn",

@@ -11,6 +11,9 @@ import sys
 import os
 import traceback
 from urllib.parse import urlparse, parse_qs
+from pypresence import Presence
+import time
+import asyncio
 
 class Playcord(toga.App):
     # Current signed in account.
@@ -75,9 +78,9 @@ class Playcord(toga.App):
         Imports an account by authorization code.
         """
         Playcord.account = Account.login(code)
-        self.refresh_account_list()
         self.refresh_profile()
         self.main_window.info_dialog("Import successful", f"Added account successfully!")
+        self.refresh_account_list()
 
     
     def login_account(self, id : str):
@@ -111,6 +114,7 @@ class Playcord(toga.App):
             self.game_label.text = ""
             self.account_image.image = toga.Image(Constants.DEFAULT_AVATAR_URL)
 
+
     def handle_uri(self):
         """
         Handles the URI parameters and executes `import_account()` if an account login has detected.
@@ -126,6 +130,41 @@ class Playcord(toga.App):
             else:
                 self.import_account(code)
 
+    
+    def send_discord_rpc(self):
+        """
+        Sends PlayStation status to Discord.
+        """
+        if self.discord_enable.is_on:
+            if self.rpc.sock_writer == None:
+                self.rpc.connect()
+            if self.account:
+                self.rpc.update(
+                    details = self.account.id,
+                    state = self.game_label.text or None,
+                    large_text = "Playcord",
+                    large_image = "logo.png",
+                    start = self.current_time
+                )
+            else:
+                self.rpc.update(
+                    details = "Idle",
+                    large_text = "Playcord",
+                    large_image = "logo.png",
+                    start = self.current_time
+                )
+        else:
+            if self.rpc.sock_writer != None:
+                self.rpc.close()
+
+    
+    async def update_discord(self):
+        await asyncio.sleep(5)
+        while True:
+            self.refresh_profile()
+            self.send_discord_rpc()
+            await asyncio.sleep(15)
+
 
     def startup(self):
         self.main_window = toga.MainWindow(
@@ -133,11 +172,14 @@ class Playcord(toga.App):
             size = (500, 230),
             resizeable = False
         )
+        self.rpc = Presence(Constants.DISCORD_CLIENT_ID)
+        self.current_time = int(time.time())
         self.account_label = toga.Label("No account has selected.", style = Pack(font_size = 10, font_family = SANS_SERIF, font_weight = BOLD))
         self.status_label = toga.Label("", style = Pack(font_size = 10, font_family = SANS_SERIF))
         self.game_label = toga.Label("", style = Pack(font_size = 10, font_family = SANS_SERIF))
         self.account_selection = toga.Selection(items = [], on_select = self.on_account_select, style = Pack(font_size = 10, font_family = SANS_SERIF, flex = 1, padding_right = 10))
         self.account_image = toga.ImageView(toga.Image(Constants.DEFAULT_AVATAR_URL), style = Pack(width = 60, height = 60, padding_right = 15))
+        self.discord_enable = toga.Switch("Connect to Discord", style = Pack(font_size = 10, font_family = SANS_SERIF), on_toggle = self.discord_rpc)
         self.refresh_account_list()
         self.handle_uri()
         self.main_window.content = toga.Box(
@@ -155,10 +197,12 @@ class Playcord(toga.App):
                         self.game_label
                     ])
                 ]),
-                toga.Switch("Connect to Discord", style = Pack(font_size = 10, font_family = SANS_SERIF))
+                self.discord_enable
             ], 
             style = Pack(direction = COLUMN, padding = 20, font_family = MONOSPACE)
         )
+        # Run forever.
+        asyncio.run(self.update_discord())
         # Show the main window
         self.main_window.show()
 
