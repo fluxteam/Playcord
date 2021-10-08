@@ -101,7 +101,7 @@
                         <RegistryValue Type="string" Name="URL Protocol" Value=""/>
                         <RegistryValue Type="string" Value="URL:Playcord Protocol"/>
                         <RegistryKey Key="shell\open\command">
-                            <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]app\run_app.bat&quot; &quot;%1&quot;" />
+                            <RegistryValue Type="string" Value="&quot;[{{ cookiecutter.module_name }}_ROOTDIR]app\{{ cookiecutter.app_name }}.bat&quot; &quot;%1&quot;" />
                         </RegistryKey>
                     </RegistryKey>
                 </Component>

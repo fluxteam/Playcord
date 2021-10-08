@@ -21,7 +21,7 @@ jobs:
         unzip template.zip
         mv "$env:TEMPLATE_BASE-$env:TEMPLATE_COMMIT" beeware_template
         cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
-        cp "package/windows/run_app.bat" "beeware_template/{{ cookiecutter.formal_name }}/src/app/"
+        cp "package/windows/{{ cookiecutter.app_name }}.bat" "beeware_template/{{ cookiecutter.formal_name }}/src/app/"
       env:
         TEMPLATE_BASE: briefcase-windows-msi-template
         TEMPLATE_COMMIT: 62da9d2b0f133532ed947a2c36043e039a90a184
