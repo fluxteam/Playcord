@@ -8,12 +8,11 @@ from playcord.classes import Constants
 from playcord.account import Account
 import webbrowser
 import sys
-import os
-import traceback
 from urllib.parse import urlparse, parse_qs
-from pypresence import Presence
+from pypresence import AioPresence
 import time
 import asyncio
+from importlib.metadata import version
 
 class Playcord(toga.App):
     # Current signed in account.
@@ -131,55 +130,62 @@ class Playcord(toga.App):
                 self.import_account(code)
 
     
-    def send_discord_rpc(self):
+    async def send_discord_rpc(self):
         """
         Sends PlayStation status to Discord.
         """
         if self.discord_enable.is_on:
             if self.rpc.sock_writer == None:
-                self.rpc.connect()
+                await self.rpc.connect()
             if self.account:
-                self.rpc.update(
-                    details = self.account.id,
+                await self.rpc.update(
+                    details = self.account_id,
                     state = self.game_label.text or None,
                     large_text = "Playcord",
-                    large_image = "logo.png",
+                    large_image = "logo",
                     start = self.current_time
                 )
             else:
-                self.rpc.update(
+                await self.rpc.update(
                     details = "Idle",
                     large_text = "Playcord",
-                    large_image = "logo.png",
+                    large_image = "logo",
                     start = self.current_time
                 )
         else:
             if self.rpc.sock_writer != None:
-                self.rpc.close()
+                # pypresence's own close() method tries to close asyncio loop too.
+                # So this just closes the socket.
+                self.rpc.send_data(2, {'v': 1, 'client_id': self.rpc.client_id})
+                self.rpc.sock_writer.close()
 
     
-    async def update_discord(self):
+    async def background(self, widget, **kwargs):
+        """
+        Background task for updating Discord and PlayStation status.
+        """
+        self.rpc = AioPresence(Constants.DISCORD_CLIENT_ID)
         await asyncio.sleep(5)
         while True:
             self.refresh_profile()
-            self.send_discord_rpc()
+            await self.send_discord_rpc()
             await asyncio.sleep(15)
 
 
     def startup(self):
         self.main_window = toga.MainWindow(
-            title = self.name, 
+            title = self.name + " " + version("playcord"),
             size = (500, 230),
             resizeable = False
         )
-        self.rpc = Presence(Constants.DISCORD_CLIENT_ID)
+        self.rpc : Optional[AioPresence] = None
         self.current_time = int(time.time())
         self.account_label = toga.Label("No account has selected.", style = Pack(font_size = 10, font_family = SANS_SERIF, font_weight = BOLD))
         self.status_label = toga.Label("", style = Pack(font_size = 10, font_family = SANS_SERIF))
         self.game_label = toga.Label("", style = Pack(font_size = 10, font_family = SANS_SERIF))
         self.account_selection = toga.Selection(items = [], on_select = self.on_account_select, style = Pack(font_size = 10, font_family = SANS_SERIF, flex = 1, padding_right = 10))
         self.account_image = toga.ImageView(toga.Image(Constants.DEFAULT_AVATAR_URL), style = Pack(width = 60, height = 60, padding_right = 15))
-        self.discord_enable = toga.Switch("Connect to Discord", style = Pack(font_size = 10, font_family = SANS_SERIF), on_toggle = self.discord_rpc)
+        self.discord_enable = toga.Switch("Connect to Discord", style = Pack(font_size = 10, font_family = SANS_SERIF))
         self.refresh_account_list()
         self.handle_uri()
         self.main_window.content = toga.Box(
@@ -201,8 +207,7 @@ class Playcord(toga.App):
             ], 
             style = Pack(direction = COLUMN, padding = 20, font_family = MONOSPACE)
         )
-        # Run forever.
-        asyncio.run(self.update_discord())
+        self.add_background_task(self.background)
         # Show the main window
         self.main_window.show()
 
@@ -213,5 +218,6 @@ def main():
         'Playcord',
         author = "Yusuf Cihan",
         description = "Show your Playstation status as Discord rich presence.",
-        home_page = "https://github.com/ysfchn/Playcord"
+        home_page = "https://github.com/ysfchn/Playcord",
+        version = version("playcord")
     )
