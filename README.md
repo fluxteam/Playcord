@@ -8,6 +8,8 @@ Shows your PlayStation status as Discord Rich Presence. Inspired and based by [T
 
 <p align="center">
     <img src=".github/windows.png" width="400">
+    &nbsp;&nbsp;
+    <img src=".github/linux.png" width="400">
 </p>
 
 ---
