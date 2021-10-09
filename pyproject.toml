@@ -28,7 +28,6 @@ requires = [
 uri_schemes = [
     "com.playstation.PlayStationApp"
 ]
-build = 1
 
 # Platform specific settings
 
