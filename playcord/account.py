@@ -21,7 +21,7 @@ class Account:
             data = {
                 "grant_type": "authorization_code",
                 "code": token,
-                "redirect_uri": "com.playstation.PlayStationApp://redirect"
+                "redirect_uri": Constants.REDIRECT_URI
             },
             headers = {
                 "Authorization": f"Basic {Constants.CLIENT_TOKEN}", 

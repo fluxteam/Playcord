@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name={{ cookiecutter.formal_name }}
-Exec={{ cookiecutter.bundle }}.{{ cookiecutter.app_name }} %F
-Icon={{ cookiecutter.app_name }}
-Categories=Utility;
-Comment={{ cookiecutter.description }}
-MimeType=x-scheme-handler/com.playstation.PlayStationApp;
-

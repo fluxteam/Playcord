@@ -25,8 +25,10 @@ requires = [
     "readsettings",
     "toga==0.3.0.dev28"
 ]
-# This folder automatically created in build.yml.
-template = "beeware_template"
+uri_schemes = [
+    "com.playstation.PlayStationApp"
+]
+build = 1
 
 # Platform specific settings
 
@@ -42,6 +44,8 @@ requires = [
 supported = false
 
 [tool.briefcase.app.playcord.linux]
+template = "https://github.com/ysfchn/briefcase-linux-appimage-template"
+template_branch = "dev"
 requires = [
     "pypresence",
     "httpx",
@@ -59,6 +63,8 @@ system_requires = [
 ]
 
 [tool.briefcase.app.playcord.windows]
+template = "https://github.com/ysfchn/briefcase-windows-msi-template"
+template_branch = "dev"
 requires = [
     "pypresence",
     "httpx",

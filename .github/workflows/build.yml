@@ -14,17 +14,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install wheel briefcase
-    - name: Inject files to briefcase templates
-      run: |
-        curl -o template.zip -L https://github.com/beeware/$env:TEMPLATE_BASE/archive/$env:TEMPLATE_COMMIT.zip
-        unzip template.zip
-        mv "$env:TEMPLATE_BASE-$env:TEMPLATE_COMMIT" beeware_template
-        cp "package/windows/{{ cookiecutter.app_name }}.wxs" "beeware_template/{{ cookiecutter.formal_name }}/"
-        cp "package/windows/{{ cookiecutter.app_name }}.bat" "beeware_template/{{ cookiecutter.formal_name }}/src/app/"
-      env:
-        TEMPLATE_BASE: briefcase-windows-msi-template
-        TEMPLATE_COMMIT: 62da9d2b0f133532ed947a2c36043e039a90a184
+        pip install wheel
+        pip install https://github.com/ysfchn/briefcase/archive/feature/custom-uri.zip
     - name: Build application
       run: briefcase package
     - name: Upload installer to artifacts
@@ -46,16 +37,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         sudo apt-get install libgirepository1.0-dev libcairo2-dev libpango1.0-dev unzip
-        pip install wheel briefcase
-    - name: Inject files to briefcase templates
-      run: |
-        curl -o template.zip -L https://github.com/beeware/$TEMPLATE_BASE/archive/$TEMPLATE_COMMIT.zip
-        unzip template.zip
-        mv "$TEMPLATE_BASE-$TEMPLATE_COMMIT" beeware_template
-        cp "package/linux/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}.desktop" "beeware_template/{{ cookiecutter.formal_name }}/{{ cookiecutter.formal_name }}.AppDir/"
-      env:
-        TEMPLATE_BASE: briefcase-linux-appimage-template
-        TEMPLATE_COMMIT: 1972003a82a72d86c3d993f05ad18cf74dbda992
+        pip install wheel
+        pip install https://github.com/ysfchn/briefcase/archive/feature/custom-uri.zip
     - name: Build application
       run: briefcase package
     - name: Upload installer to artifacts
