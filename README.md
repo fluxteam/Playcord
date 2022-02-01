@@ -1,9 +1,15 @@
+#### Playcord is now archived as Discord has added integration for linking PlayStation account. You can continue using Playcord, but note that no updates (even bug fixes) will be released.
+
+---
+
 # Playcord
 
 Shows your PlayStation status as Discord Rich Presence. Inspired and based by [Tustin's PlayStationDiscord](https://github.com/Tustin/PlayStationDiscord), but in Python. Built with Toga (for GUI) and Briefcase (for packaging) and made for GNU/Linux and Windows. 
 
+> **NOTE 1**<br>
 > The project is still under development but most functions should work. If you get an error, please report by creating a new issue under "Issues" tab.
 
+> **NOTE 2**<br>
 > GNU/Linux build may not working right now due to an exception that raised on the GUI library that Playcord uses.
 
 <p align="center">
